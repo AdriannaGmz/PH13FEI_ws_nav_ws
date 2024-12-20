@@ -1,0 +1,53 @@
+<launch>
+
+  <!-- TF publisher os_sensor → base_link -->
+  <!-- <node name="tf_husky2ousterlidar" pkg="husky_isa4_init" type="tf2_static_lidar" /> -->
+<!--  <node name="tf_husky2ousterlidar" pkg="husky_isa4_init" type="tf2_static_lidar" output="screen" required="true">
+    </node> -->
+
+
+  <!-- pc to laser -->
+  <!-- <include file="$(find husky_isa4_nav)/launch/lidar_pointcloud_to_laserscan.launch" /> -->
+
+
+  <!--- Extra Emergency Stop, acts on twist mux node -->
+  <node name="mux_estop" pkg="husky_isa4_nav" type="mux_estop" output="screen" required="true"  />
+
+
+  <!-- Run the map server -->
+  <!-- <arg name="map_file" default="$(find husky_isa4_nav)/maps/test_map.yaml"/> -->
+  <!-- <arg name="map_file" default="$(find husky_isa4_nav)/maps/cornerhall_map.yaml"/> -->
+  <!-- <arg name="map_file" default="$(find husky_isa4_nav)/maps/hall_sofa_alleheilligen.yaml"/>     -->
+  <!--arg name="map_file" default="$(find husky_isa4_nav)/maps/map.yaml"/-->
+  <arg name="map_file" default="$(find husky_isa4_nav)/maps/Marl_map.yaml"/>
+
+
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+
+  <!--- Run AMCL -->
+  <!-- <arg name="scan_topic" default="$(eval optenv('HUSKY_LASER_TOPIC', 'scan'))" /> -->
+  <arg name="scan_topic" default="scan" />
+  <include file="$(find husky_navigation)/launch/amcl.launch">
+    <arg name="scan_topic" value="$(arg scan_topic)" />
+  </include>
+
+
+  <!--- Run Move Base -->
+  <include file="$(find husky_navigation)/launch/move_base.launch">
+    <arg name="no_static_map" value="true"/>
+
+    <!--- Set lower speeds to avoid shakes -->
+<!--     <arg name="max_v_t" value="0.003"/>
+    <arg name="min_v_t" value="0.0010"/>
+    <arg name="max_v_r" value="0.0030"/>
+    <arg name="min_v_r" value="0.0010"/> -->
+
+
+  </include>
+
+
+
+</launch>
+
+

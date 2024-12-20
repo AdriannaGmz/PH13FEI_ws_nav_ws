@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- pointcloud_to_laserscan node -->
+    <node pkg="pointcloud_to_laserscan" type="pointcloud_to_laserscan_node" name="pointcloud_to_laserscan">
+        <remap from="cloud_in" to="/ouster/points"/>
+        
+        <rosparam>
+            transform_tolerance: 0.1    # Time tolerance for transform lookups
+                                        # Only used if a target_frame is provided. def 0.01
+
+            # target_frame is sensor_link by default. Leave disabled to output scan in pointcloud frame
+            # heights is the range to take points using the "target_frame" as reference (below and above)
+
+            #target_frame: os_sensor        # ouster reference frame (tf)
+            #min_height: -1.15              # lidar is 118cm above ground level (mounted on husky)
+            #max_height: 0.5                # max height of devices mounted on husky (wind meter)
+
+            target_frame: base_link         # husky base ref frame (tf)
+            #min_height: 0.5 # worked on Nov29    #0.05 # edited from -0.05
+            min_height: 0.35
+            max_height: 1.7                 
+
+
+            angle_min: -3.14159152          # -M_PI/2 = -1.5708
+            angle_max: 3.14159152           #  M_PI/2 = -1.5708
+            angle_increment: 0.0087         #  M_PI/360.0   #def 0.0087
+            scan_time: 0.33                 #  default: 1.0/30.0 - The scan rate in seconds
+
+            range_min: 0.8
+            range_max: 20.0
+            use_inf: true
+            inf_epsilon: 1.0
+
+            concurrency_level: 1
+        </rosparam>
+
+    </node>
+
+</launch>

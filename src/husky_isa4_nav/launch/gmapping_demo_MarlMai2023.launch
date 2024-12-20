@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<launch>
+  <!--- Extra Emergency Stop, acts on twist mux node -->
+  <node name="mux_estop" pkg="husky_isa4_nav" type="mux_estop" output="screen" required="true"  />
+
+
+
+  <!--- Gmapping -->
+  <arg name="scan_topic" default="/scan" />
+  <include file="$(find husky_navigation)/launch/gmapping.launch">
+    <arg name="scan_topic" value="$(arg scan_topic)" />
+
+
+<!-- v1 map with lower resolution and lower max_range -->
+<!-- <arg name="particles" value="100" />
+<arg name="linearUpdate" value="0.1" />
+<arg name="angularUpdate" value="0.05" />
+<arg name="map_update_interval" value="0.5" />
+<arg name="maxUrange" value="15" />
+<arg name="maxRange" value="70" />
+<arg name="minimumScore" value="10" />
+<arg name="delta" value="0.10" /> -->
+
+
+<!-- v2 map with higher resolution and better max_range -->
+<arg name="particles" value="100" />
+<arg name="linearUpdate" value="0.1" />
+<arg name="angularUpdate" value="0.05" />
+<arg name="map_update_interval" value="0.5" />
+<arg name="maxUrange" value="15" />
+<arg name="maxRange" value="70" />
+<arg name="minimumScore" value="10" />
+<arg name="delta" value="0.10" />
+
+  </include>
+
+
+  <!--- Run Move Base  -->
+  <include file="$(find husky_navigation)/launch/move_base.launch">
+  </include>
+
+
+</launch>

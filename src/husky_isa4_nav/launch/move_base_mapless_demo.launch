@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+  <!--- Extra Emergency Stop, acts on twist mux node -->
+  <node name="mux_estop" pkg="husky_isa4_nav" type="mux_estop" output="screen" required="true"  />
+  
+
+  <!--- Run Move Base -->  
+  <include file="$(find husky_navigation)/launch/move_base.launch">
+    <arg name="no_static_map" value="true"/>
+  </include>
+
+
+  
+</launch>

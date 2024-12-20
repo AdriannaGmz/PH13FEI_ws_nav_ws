@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<launch>
+  <!--- Extra Emergency Stop, acts on twist mux node -->
+  <node name="mux_estop" pkg="husky_isa4_nav" type="mux_estop" output="screen" required="true"  />
+
+
+
+  <!--- Gmapping -->
+  <arg name="scan_topic" default="/scan" />
+  <include file="$(find husky_navigation)/launch/gmapping.launch">
+    <arg name="scan_topic" value="$(arg scan_topic)" />
+  </include>
+
+
+
+  <!--- Move Base.  pc is PointCloud  -->
+  <!-- Local Costmap from raw Pointcloud -->
+  <include file="$(find husky_navigation)/launch/move_base_pc.launch"/>
+
+
+
+</launch>

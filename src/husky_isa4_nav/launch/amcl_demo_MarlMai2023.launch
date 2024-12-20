@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<launch>
+  <!--- Extra Emergency Stop, acts on twist mux node -->
+  <!-- <node name="mux_estop" pkg="husky_isa4_nav" type="mux_estop" output="screen" required="true"  /> -->
+
+
+  <!-- Run the map server -->
+  <!-- <arg name="map_file" default="$(find husky_isa4_nav)/maps/test_map.yaml"/> -->
+  <!-- <arg name="map_file" default="$(find husky_isa4_nav)/maps/hall_sofa_alleheilligen.yaml"/>     -->
+  <!-- <arg name="map_file" default="$(find husky_isa4_nav)/maps/hall220423_lessRes_map.yaml"/>     -->
+  <!-- <arg name="map_file" default="$(find husky_isa4_nav)/maps/23-05-22-marl/map.yaml"/>     -->
+  <arg name="map_file" default="$(find husky_isa4_nav)/maps/Marl_map.yaml"/>    
+
+
+
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+
+  <!--- Run AMCL -->
+  <include file="$(find husky_navigation)/launch/amcl.launch">
+    <arg name="scan_topic" value="/scan" />
+  </include>
+
+
+  <!--- Run Move Base -->
+  <include file="$(find husky_navigation)/launch/move_base.launch">
+  <!-- <include file="$(find husky_navigation)/launch/move_base_teb.launch"> -->
+    <arg name="no_static_map" value="false"/>
+  </include>
+
+
+
+</launch>
+
+

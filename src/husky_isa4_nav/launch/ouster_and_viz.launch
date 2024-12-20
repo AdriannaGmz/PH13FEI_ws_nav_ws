@@ -1,0 +1,20 @@
+<launch>
+
+  <!-- Ouster launch -->
+  <include file="$(find ouster_ros)/launch/ouster.launch" />
+
+
+  <!-- TF broadcaster os_sensor → base_link -->
+  <node name="tf_husky_to_lidar" pkg="husky_tf" type="tf2_static_lidar" output="screen" required="true" />
+
+  <!-- PC to laser  in /scan -->
+  <include file="$(find husky_isa4_nav)/launch/lidar_pointcloud_to_laserscan.launch" />
+
+  <!-- Rviz robot-->
+  <include file="$(find husky_viz)/launch/view_robot.launch" />
+
+  <!-- Lidar Marker for rviz -->
+  <node pkg="husky_isa4_nav" type="publish_lidar_marker.py" name="pub_lidar_marker" respawn="false" />
+
+ 
+</launch>

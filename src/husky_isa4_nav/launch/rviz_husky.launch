@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+  <!--- Run view_robot -->
+  <include file="$(find husky_viz)/launch/view_robot.launch">
+  </include>
+
+  <!--- Lidar marker -->
+  <node name="lidar_marker_pub" pkg="husky_isa4_nav" type="publish_lidar_marker.py" />
+
+
+</launch>
+

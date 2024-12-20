@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<launch>
+  <!--- Extra Emergency Stop, acts on twist mux node -->
+  <node name="mux_estop" pkg="husky_isa4_nav" type="mux_estop" output="screen" required="true"  />
+  <!-- Stamped cmd velocities -->
+  <node name="rep_cmd_vel_stamped" pkg="repub_cmd_vel" type="rep_cmd_vel_node" output="screen" required="true"  />
+  <node name="rep_cmd_vel_husky_stamped" pkg="repub_cmd_vel" type="rep_cmd_vel_husky_node" output="screen" required="true"  />
+
+
+
+  <!-- Run the map server -->
+  <arg name="map_file" default="$(find husky_isa4_nav)/maps/7Nov2Grass.yaml"/>
+
+
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+
+  <!--- Run AMCL -->
+  <include file="$(find husky_navigation)/launch/amcl.launch">
+    <arg name="scan_topic" value="/scan" />
+  </include>
+
+
+  <!--- Run Move Base -->
+  <include file="$(find husky_navigation)/launch/move_base_pc.launch">    
+    <arg name="no_static_map" value="false"/>
+  </include>
+
+
+
+</launch>
+
+

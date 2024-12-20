@@ -1,0 +1,18 @@
+<launch>
+  
+  <!-- Ouster launch -->
+  <include file="$(find ouster_ros)/launch/ouster.launch" />
+
+
+  <!-- TF publisher os_sensor → base_link -->
+  <!-- <node name="tf_husky2ousterlidar" pkg="husky_isa4_init" type="tf2_static_lidar" /> -->
+  <node name="tf_husky2ousterlidar" pkg="husky_isa4_init" type="tf2_static_lidar" output="screen" required="true">
+    </node>
+
+
+  <!-- pc to laser -->
+  <include file="$(find husky_isa4_nav)/launch/lidar_pointcloud_to_laserscan.launch" />
+
+
+
+</launch>

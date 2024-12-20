@@ -1,0 +1,42 @@
+rosrun rqt_tf_tree rqt_tf_tree
+rqt_graph
+
+
+## Lidar driver, point_cloud_to_laser and tf broadcaster
+
+EACH ONE of ouster_scan
+	roslaunch ouster_ros ouster.launch 
+	roslaunch husky_isa4_init tf_pub.launch 
+	roslaunch husky_isa4_nav lidar_pointcloud_to_laserscan.launch 
+
+
+roslaunch husky_isa4_nav ouster_and_scan.launch
+	#roslaunch husky_gazebo husky_empty_world.launch  
+	roslaunch husky_isa4_nav ouster_and_scan.launch
+	roslaunch husky_isa4_nav ouster_and_viz.launch
+
+roslaunch husky_viz view_robot.launch
+	roslaunch husky_isa4_nav rviz_husky.launch
+	rosrun husky_isa4_nav publish_lidar_marker.py
+
+
+
+## Move husky without map and no lidar
+
+roslaunch husky_isa4_nav move_base_mapless_demo.launch
+
+
+## Building map with move_base + gmapping
+
+roslaunch husky_isa4_nav gmapping_demo.launch
+
+cd src/husky_isa4_nav/maps/
+rosrun map_server map_saver -f test_map
+
+
+## AMCL demo
+
+roslaunch husky_isa4_nav amcl_demo.launch
+
+To clear estop from joystick, physically press and release button in Husky and briefly publish:
+rostopic pub /e_stop std_msgs/Bool "data: false" 
